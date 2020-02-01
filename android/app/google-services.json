@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1086103525793",
+    "firebase_url": "https://galonplus-1580469360101.firebaseio.com",
+    "project_id": "galonplus-1580469360101",
+    "storage_bucket": "galonplus-1580469360101.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1086103525793:android:b7675b7b9f4169093793e0",
+        "android_client_info": {
+          "package_name": "com.galonplusmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1086103525793-q0c5eog7qqvjav8q9fgqu516hflj5u97.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.galonplusmobile",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1086103525793-6s5k38kiak0us9p9ha7rpabj3uumbf15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD89xAyewfTCaY7lMJTiJ6F7i_cF4mD0qU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1086103525793-6s5k38kiak0us9p9ha7rpabj3uumbf15.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
