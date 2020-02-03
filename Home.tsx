@@ -1,12 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {SafeAreaView} from 'react-navigation';
 import {Button, Divider, Layout, TopNavigation} from '@ui-kitten/components';
 import {GoogleSignin} from "@react-native-community/google-signin";
 import Config from "./Config";
 import {getDeviceName, getUniqueId} from "react-native-device-info";
 import AsyncStorage from "@react-native-community/async-storage";
-import {ToastAndroid} from "react-native";
-import {err} from "react-native-svg/lib/typescript/xml";
+import { SERVER_HOST, GOOGLE_WEB_API_ID } from "react-native-dotenv"
 
 GoogleSignin.configure({
     webClientId: Config.development.serverWebClientId,
@@ -54,13 +53,13 @@ export const HomeScreen = ({navigation}) => {
         navigation.navigate('Details');
     };
 
-    getTokenAndAuthenticateWithServer()
-        .then(serverAccessToken => {
-            alert(serverAccessToken)
-        })
-        .catch(error => {
-            navigation.navigate(`Login`)
-        })
+    // getTokenAndAuthenticateWithServer()
+    //     .then(serverAccessToken => {
+    //         alert(serverAccessToken)
+    //     })
+    //     .catch(error => {
+    //         navigation.navigate(`Login`)
+    //     })
 
     return (
         <SafeAreaView style={{flex: 1}}>
