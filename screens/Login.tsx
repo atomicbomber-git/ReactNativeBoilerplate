@@ -20,7 +20,7 @@ export const LoginScreen = () => {
             <Divider/>
             <Layout style={styles.main}>
                 <Text category='h1'>
-                    Log In
+                    { Config.appName }
                 </Text>
             </Layout>
         </SafeAreaView>

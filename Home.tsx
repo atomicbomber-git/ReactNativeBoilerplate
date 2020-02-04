@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView} from 'react-navigation';
 import {Button, Divider, Layout, TopNavigation} from '@ui-kitten/components';
 import {GoogleSignin} from "@react-native-community/google-signin";
 import Config from "./Config";
 import {getDeviceName, getUniqueId} from "react-native-device-info";
 import AsyncStorage from "@react-native-community/async-storage";
-import { SERVER_HOST, GOOGLE_WEB_API_ID } from "react-native-dotenv"
+import {LoadingScreen} from "./LoadingScreen";
 
-GoogleSignin.configure({
-    webClientId: Config.development.serverWebClientId,
-});
+
+function setUpGoogleSignIn() {
+    GoogleSignin.configure({
+        webClientId: Config.development.serverWebClientId,
+    });
+}
 
 async function signInWithGoogle() {
     try {
@@ -23,45 +26,43 @@ async function signInWithGoogle() {
     }
 }
 
-
-async function signInWithServer(idToken) {
-    const deviceName = await getDeviceName()
-
-    const response = await fetch(`${Config.development.serverHost}/api/google-sign-in`, {
+async function signInWithServer(serverHost, idToken) {
+    const response = await fetch(`${serverHost}/api/google-sign-in`, {
         method: 'POST',
         body: JSON.stringify({
             id_token: idToken,
-            identifier: `${getUniqueId()} - ${deviceName}`
+            identifier: `${getUniqueId()} - ${(await getDeviceName())}`
         })
     })
 
-    if (!response.ok) {
-        throw await response.json()
-    }
-
+    if (!response.ok) throw await response.json()
     return await response.json()
 }
 
-async function getTokenAndAuthenticateWithServer() {
-    const serverAccessToken = await AsyncStorage.getItem(`token`)
-    if (!serverAccessToken) throw `Token not found.`
-    return serverAccessToken
+async function getAndVerifyToken() {
+    const token = await AsyncStorage.getItem(`token`)
+    if (!token) throw `Token not found.`
+    return token
 }
 
 export const HomeScreen = ({navigation}) => {
+    const [isReady, setIsReady] = useState(false)
+    const [serverToken, setServerToken] = useState(null)
+
     const navigateDetails = () => {
         navigation.navigate('Details');
     };
 
-    // getTokenAndAuthenticateWithServer()
-    //     .then(serverAccessToken => {
-    //         alert(serverAccessToken)
-    //     })
-    //     .catch(error => {
-    //         navigation.navigate(`Login`)
-    //     })
+    getAndVerifyToken()
+        .then(serverToken => {
+            setIsReady(isReady)
+            setServerToken(serverToken)
+        })
+        .catch(error => {
+            navigation.navigate('Login')
+        })
 
-    return (
+    return isReady ? (
         <SafeAreaView style={{flex: 1}}>
             <TopNavigation title='MyApp' alignment='center'/>
             <Divider/>
@@ -71,5 +72,7 @@ export const HomeScreen = ({navigation}) => {
                 </Button>
             </Layout>
         </SafeAreaView>
-    );
+    ) : (
+        <LoadingScreen/>
+    )
 };
